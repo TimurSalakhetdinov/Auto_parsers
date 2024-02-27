@@ -24,26 +24,26 @@ Before running the script, ensure you have the following installed:
 ## Installation
 
 1. Clone the repository:
-'''bash
+```bash
 git clone https://github.com/yourusername/bid-cars-scraper.git
-'''
+```
 
 2. Navigate to the project directory:
-'''bash
+```bash
 cd bid-cars-scraper
-'''
+```
 
 3. Install the required Python packages:
-'''
+```
 pip install -r requirements.txt
-'''
+```
 
 ## Usage
 
 To run the script, execute the following command in your terminal:
-'''
+```
 python bid_parser.py
-'''
+```
 
 ## Script Arguments
 
@@ -51,9 +51,10 @@ python bid_parser.py
 --save_to_db (optional): If set, the script will save the data to a SQLite database. Otherwise, data will be saved to an Excel file by default.
 
 ## Example Command
-'''
-python bid_parser.py --limit 100 --save_to_db
-'''
+```python 
+bid_parser.py --limit 100 --save_to_db
+```
+
 This command will scrape data for 100 vehicles and save the information to a SQLite database.
 
 ## Output
