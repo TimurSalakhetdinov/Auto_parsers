@@ -86,7 +86,7 @@ def bid_parser(limit=None, save_to_db=False):
 
         # Increment the page number for the next iteration
         current_page += 1
-        sleep(randint(5, 10))  # Sleep to allow page to load; adjust as necessary.
+        sleep(randint(2, 5))  # Sleep to allow page to load; adjust as necessary.
 
     if save_to_db:
         save_to_database(offers)
