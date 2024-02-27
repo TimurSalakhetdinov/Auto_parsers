@@ -51,8 +51,8 @@ python bid_parser.py
 - save_to_db (optional): If set, the script will save the data to a SQLite database. Otherwise, data will be saved to an Excel file by default.
 
 ## Example Command
-```python 
-bid_parser.py --limit 100 --save_to_db
+```
+python bid_parser.py --limit 100 --save_to_db
 ```
 
 This command will scrape data for 100 vehicles and save the information to a SQLite database.
