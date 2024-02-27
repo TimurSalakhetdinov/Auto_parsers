@@ -25,7 +25,7 @@ Before running the script, ensure you have the following installed:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/bid-cars-scraper.git
+git clone https://github.com/TimurSalakhetdinov/Bid_USA_parser.git
 ```
 
 2. Navigate to the project directory:
