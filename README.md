@@ -47,8 +47,8 @@ python bid_parser.py
 
 ## Script Arguments
 
---limit (optional): Sets the maximum number of vehicles to scrape. If not set, the script will continue until there are no more pages left to scrape.
---save_to_db (optional): If set, the script will save the data to a SQLite database. Otherwise, data will be saved to an Excel file by default.
+- limit (optional): Sets the maximum number of vehicles to scrape. If not set, the script will continue until there are no more pages left to scrape.
+- save_to_db (optional): If set, the script will save the data to a SQLite database. Otherwise, data will be saved to an Excel file by default.
 
 ## Example Command
 ```python 
