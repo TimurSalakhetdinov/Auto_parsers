@@ -45,12 +45,12 @@ To run the script, execute the following command in your terminal:
 python bid_parser.py
 ```
 
-## Script Arguments
+### Script Arguments
 
 - limit (optional): Sets the maximum number of vehicles to scrape. If not set, the script will continue until there are no more pages left to scrape.
 - save_to_db (optional): If set, the script will save the data to a SQLite database. Otherwise, data will be saved to an Excel file by default.
 
-## Example Command
+### Example Command
 ```
 python bid_parser.py --limit 100 --save_to_db
 ```
@@ -66,6 +66,6 @@ This command will scrape data for 100 vehicles and save the information to a SQL
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue if you have suggestions or improvements.
 
-Acknowledgements
+## Acknowledgements
 
 Thanks to the Selenium project for providing the tools necessary for web scraping dynamic websites.
