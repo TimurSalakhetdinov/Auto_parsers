@@ -31,6 +31,8 @@ def bid_parser(limit=None):
                 break
             
             auto_id = car_elem.get_attribute("id")
+            url = car_elem.find_element(by=By.CSS_SELECTOR, value='.item-title a').get_attribute("href")
+
             damage_info_element = car_elem.find_element(By.CSS_SELECTOR, ".damage-info")
             damage_info_text = damage_info_element.text.split(',')[0] if damage_info_element else ""
             
@@ -46,7 +48,8 @@ def bid_parser(limit=None):
                 "VIN": vin,
                 "Model": model,
                 "Year": year,
-                "Today": today
+                "Today": today,
+                "URL": url, 
             })
             collected += 1
         
@@ -72,6 +75,6 @@ def save_to_excel(offers):
     df.to_excel(filename, index=False)
 
 if __name__ == "__main__":
-    offers = bid_parser(limit=300)
+    offers = bid_parser(limit=150)
     save_to_excel(offers)
     print("Scraping complete.")
