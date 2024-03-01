@@ -140,5 +140,5 @@ def save_to_database(offers):
     conn.close()
 
 if __name__ == "__main__":
-    offers = bid_parser(limit=25000, save_to_db=False)
+    offers = bid_parser(limit=25, save_to_db=False)
     print("Scraping complete.")
