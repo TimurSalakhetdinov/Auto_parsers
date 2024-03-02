@@ -10,7 +10,7 @@ from datetime import datetime
 def bid_parser(limit=None):
     URL = "https://bid.cars/en/search/archived/results?search-type=filters&type=Automobile&year-from=1900&year-to=2025&make=All&model=All&auction-type=All"
     options = webdriver.ChromeOptions()
-    #options.add_argument("--headless")
+    options.add_argument("--headless")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
     driver = webdriver.Chrome(options=options)
