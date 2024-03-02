@@ -3,37 +3,50 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from datetime import datetime
 import pandas as pd
 import re
-from datetime import datetime
 
-def bid_parser(limit=None):
-    URL = "https://bid.cars/en/search/archived/results?search-type=filters&type=Automobile&year-from=1900&year-to=2025&make=All&model=All&auction-type=All"
+def save_to_csv(offers, index):
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    filename = f'bid_offers_{date_str}_{index}.csv'
+    df = pd.DataFrame(offers)
+    df.to_csv(filename, index=False)
+    print(f"Saved {filename}")
+
+def bid_parser(total_limit=None, iteration_limit=None):
+    base_url = "https://bid.cars/en/search/archived/results?search-type=filters&type=Automobile&year-from=1900&year-to=2025&make=All&model=All&auction-type=All"
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(15)
-    driver.get(URL)
+    driver.set_script_timeout(30)
+    
+    driver.get(base_url)
     
     collected = 0
     offers = []
     file_index = 1
-    
-    while True:
+    batch_collected = 0  # Reset batch counter
+
+    while (not total_limit or collected < total_limit):
         WebDriverWait(driver, 10).until(
             EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.items-row.archived-result > div.item-horizontal.lots-search"))
         )
         car_elements = driver.find_elements(By.CSS_SELECTOR, "div.items-row.archived-result > div.item-horizontal.lots-search")
         
+        if not car_elements:
+            print("No car elements found on the page. Ending scrape.")
+            break
+
         for car_elem in car_elements:
-            if limit and collected >= limit:
-                save_to_csv(offers, file_index)
-                return offers
+            if total_limit and collected >= total_limit:
+                break
             
             auto_id = car_elem.get_attribute("id")
-            url = car_elem.find_element(by=By.CSS_SELECTOR, value='.item-title a').get_attribute("href")
+            #url = car_elem.find_element(By.CSS_SELECTOR, '.item-title a').get_attribute("href")
 
             damage_info_element = car_elem.find_element(By.CSS_SELECTOR, ".damage-info")
             damage_info_text = damage_info_element.text.split(',')[0] if damage_info_element else ""
@@ -44,23 +57,28 @@ def bid_parser(limit=None):
             li_text = li_element.get_attribute("textContent")
             vin = (vin_match.group(1) if (vin_match := re.search(r'VIN:\s*(\w+)', li_text)) else "No VIN")
             
-            today = datetime.now().date()
+            #today = datetime.now().date()
+            
             offers.append({
                 "ID": auto_id,
                 "VIN": vin,
                 "Model": model,
                 "Year": year,
-                "Today": today,
-                "URL": url, 
+                #"Today": today,
+                #"URL": url, 
             })
+            
+            batch_collected += 1
             collected += 1
-        
-            if len(offers) >= 100000:
+
+            # Save batch if iteration_limit is set and reached
+            if iteration_limit is not None and batch_collected >= iteration_limit:
                 save_to_csv(offers, file_index)
                 offers = []  # Reset the offers list after saving
                 file_index += 1  # Increment the file index for next save
-        
-        if limit and collected >= limit:
+                batch_collected = 0  # Reset batch counter
+
+        if total_limit and collected >= total_limit:
             break
         
         try:
@@ -71,20 +89,12 @@ def bid_parser(limit=None):
         except (TimeoutException, NoSuchElementException):
             print("No more pages to parse or button not clickable.")
             break
-    
-    driver.quit()
 
     if offers:  # Save any remaining data that was not written to a file
         save_to_csv(offers, file_index)
-    return offers
-
-def save_to_csv(offers, index):
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    filename = f'bid_offers_{date_str}_{index}.csv'
-    df = pd.DataFrame(offers)
-    df.to_csv(filename, index=False)
-    print(f"Saved {filename}")
+    
+    driver.quit()
 
 if __name__ == "__main__":
-    offers = bid_parser(limit=1000000)  # Adjust the limit as necessary
+    offers = bid_parser(total_limit=300, iteration_limit=None)  # Adjust the limits as necessary
     print("Scraping complete.")
