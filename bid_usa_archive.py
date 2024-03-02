@@ -10,7 +10,7 @@ from datetime import datetime
 def bid_parser(limit=None):
     URL = "https://bid.cars/en/search/archived/results?search-type=filters&type=Automobile&year-from=1900&year-to=2025&make=All&model=All&auction-type=All"
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
     driver = webdriver.Chrome(options=options)
@@ -19,6 +19,7 @@ def bid_parser(limit=None):
     
     collected = 0
     offers = []
+    file_index = 1
     
     while True:
         WebDriverWait(driver, 10).until(
@@ -28,7 +29,8 @@ def bid_parser(limit=None):
         
         for car_elem in car_elements:
             if limit and collected >= limit:
-                break
+                save_to_csv(offers, file_index)
+                return offers
             
             auto_id = car_elem.get_attribute("id")
             url = car_elem.find_element(by=By.CSS_SELECTOR, value='.item-title a').get_attribute("href")
@@ -53,6 +55,11 @@ def bid_parser(limit=None):
             })
             collected += 1
         
+            if len(offers) >= 100000:
+                save_to_csv(offers, file_index)
+                offers = []  # Reset the offers list after saving
+                file_index += 1  # Increment the file index for next save
+        
         if limit and collected >= limit:
             break
         
@@ -66,15 +73,18 @@ def bid_parser(limit=None):
             break
     
     driver.quit()
+
+    if offers:  # Save any remaining data that was not written to a file
+        save_to_csv(offers, file_index)
     return offers
 
-def save_to_excel(offers):
-    df = pd.DataFrame(offers)
+def save_to_csv(offers, index):
     date_str = datetime.now().strftime("%Y-%m-%d")
-    filename = f'bid_offers_archive_{date_str}.xlsx'
-    df.to_excel(filename, index=False)
+    filename = f'bid_offers_{date_str}_{index}.csv'
+    df = pd.DataFrame(offers)
+    df.to_csv(filename, index=False)
+    print(f"Saved {filename}")
 
 if __name__ == "__main__":
-    offers = bid_parser(limit=None)
-    save_to_excel(offers)
+    offers = bid_parser(limit=1000000)  # Adjust the limit as necessary
     print("Scraping complete.")
