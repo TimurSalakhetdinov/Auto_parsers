@@ -75,6 +75,6 @@ def save_to_excel(offers):
     df.to_excel(filename, index=False)
 
 if __name__ == "__main__":
-    offers = bid_parser(limit=150)
+    offers = bid_parser(limit=None)
     save_to_excel(offers)
     print("Scraping complete.")
