@@ -28,12 +28,12 @@ def bid_parser(total_limit=None, iteration_limit=None):
     """
         
     base_url = "https://bid.cars/en/search/archived/results?search-type=filters&type=Automobile&year-from=1900&year-to=2025&make=All&model=All&auction-type=All"
-    PROXY = "136.243.82.121:1082"
+    #PROXY = "136.243.82.121:1082"
     options = webdriver.ChromeOptions()
     #options.add_argument("--headless")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
-    options.add_argument(f'--proxy-server={PROXY}')
+    #options.add_argument(f'--proxy-server={PROXY}')
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(15)
     driver.set_script_timeout(30)
