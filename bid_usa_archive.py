@@ -15,11 +15,25 @@ def save_to_csv(offers, index):
     print(f"Saved {filename}")
 
 def bid_parser(total_limit=None, iteration_limit=None):
+    """
+    Scrapes car data from the specified URL and saves it to CSV files, each containing up to 'iteration_limit' records.
+    Continues scraping until 'total_limit' records are collected or no more data is available.
+
+    Arguments:
+    total_limit -- (Optional) The total number of records to scrape. If None, scraping continues until no more data is available.
+    iteration_limit -- (Optional) The maximum number of records to include in each CSV file before starting a new one. Defaults to 50000.
+
+    Returns:
+    None -- This function saves the scraped data to CSV files and does not return any value.
+    """
+        
     base_url = "https://bid.cars/en/search/archived/results?search-type=filters&type=Automobile&year-from=1900&year-to=2025&make=All&model=All&auction-type=All"
+    PROXY = "136.243.82.121:1082"
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
+    options.add_argument(f'--proxy-server={PROXY}')
     driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(15)
     driver.set_script_timeout(30)
@@ -85,7 +99,12 @@ def bid_parser(total_limit=None, iteration_limit=None):
             next_button = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.CSS_SELECTOR, "a[data-next-page]"))
             )
+            driver.execute_script("arguments[0].scrollIntoView();", next_button)
             driver.execute_script("arguments[0].click();", next_button)
+            WebDriverWait(driver, 20).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "div.unique-element-on-next-page"))
+    )
+
         except (TimeoutException, NoSuchElementException):
             print("No more pages to parse or button not clickable.")
             break
@@ -96,5 +115,5 @@ def bid_parser(total_limit=None, iteration_limit=None):
     driver.quit()
 
 if __name__ == "__main__":
-    offers = bid_parser(total_limit=300, iteration_limit=None)  # Adjust the limits as necessary
+    offers = bid_parser(total_limit=150, iteration_limit=None)  # Adjust the limits as necessary
     print("Scraping complete.")
