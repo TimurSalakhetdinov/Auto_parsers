@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from datetime import datetime
+from time import sleep
 import pandas as pd
 import re
 
@@ -29,15 +30,18 @@ def bid_parser(total_limit=None, iteration_limit=None):
         
     base_url = "https://bid.cars/en/search/archived/results?search-type=filters&type=Automobile&year-from=1900&year-to=2025&make=All&model=All&auction-type=All"
     #PROXY = "136.243.82.121:1082"
-    options = webdriver.ChromeOptions()
+    driver = webdriver.Safari()
+    driver.maximize_window()
+
+    #options = webdriver.ChromeOptions()
     #options.add_argument("--headless")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
+    #options.add_argument("--disable-blink-features=AutomationControlled")
+    #options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
     #options.add_argument(f'--proxy-server={PROXY}')
-    driver = webdriver.Chrome(options=options)
+    #driver = webdriver.Chrome(options=options)
+    
     driver.implicitly_wait(15)
     driver.set_script_timeout(30)
-    
     driver.get(base_url)
     
     collected = 0
@@ -49,6 +53,8 @@ def bid_parser(total_limit=None, iteration_limit=None):
         WebDriverWait(driver, 10).until(
             EC.presence_of_all_elements_located((By.CSS_SELECTOR, "div.items-row.archived-result > div.item-horizontal.lots-search"))
         )
+        sleep(5)  # Добавляем задержку в 10 секунд для полной загрузки элементов
+
         car_elements = driver.find_elements(By.CSS_SELECTOR, "div.items-row.archived-result > div.item-horizontal.lots-search")
         
         if not car_elements:
