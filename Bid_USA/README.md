@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a Python script for scraping vehicle auction data from the "bid.cars" website. The script navigates through the auction pages, collects information on each vehicle, and saves the data either to an Excel file or a SQLite database, based on user preference.
+This repository contains a Python script for scraping vehicle auction data from the Bid Cars website. The script navigates through the auction pages, collects information on each vehicle, and saves the data either to an Excel file or a SQLite database, based on user preference.
 
 ## Features
 

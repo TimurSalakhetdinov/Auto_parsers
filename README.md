@@ -1,74 +1,42 @@
-# **Bid Cars Web Scraper**
+# Vehicle Data Scraping Tools
 
-## Overview
+This repository hosts a collection of Python scripts designed for scraping vehicle data from various online platforms. Each tool is tailored to a specific website, allowing users to extract detailed information about vehicles listed for auctions or sales.
 
-This repository contains a Python script for scraping vehicle auction data from the "bid.cars" website. The script navigates through the auction pages, collects information on each vehicle, and saves the data either to an Excel file or a SQLite database, based on user preference.
+## Featured Scripts
 
-## Features
+- **Bid Cars Web Scraper**: Extracts auction data from the Bid Cars website, including vehicle IDs, VINs, models, years, and URLs. Data can be saved to Excel or a SQLite database.
 
-- Scrapes vehicle details such as ID, VIN, model, year, and URL.
-- Option to limit the number of items collected.
-- Data can be saved to an Excel file or a SQLite database.
-- Implements Selenium for web scraping to handle dynamic content.
+- **American Motors Scraper**: Gathers vehicle information from the American Motors website. It focuses on VINs and URLs of the vehicles listed for sale.
 
-## Prerequisites
+## General Features
 
-Before running the script, ensure you have the following installed:
-
-- Python 3.x
-- Selenium WebDriver
-- pandas
-- openpyxl (for Excel file handling)
-- SQLite3 (for database handling)
+- Automated navigation through website pages to collect vehicle data.
+- Customizable limits for the number of items to scrape.
+- Data export options include Excel files and SQLite databases.
+- Built with Selenium for dynamic content handling.
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/TimurSalakhetdinov/Bid_USA_parser.git
-```
+Clone the repository and install required dependencies as specified in each script's documentation. Ensure you have Python 3.x and Selenium WebDriver installed.
 
-2. Navigate to the project directory:
 ```bash
-cd bid-cars-scraper
-```
-
-3. Install the required Python packages:
-```
+git clone <repository-url>
+cd <specific-scraper-folder>
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-To run the script, execute the following command in your terminal:
-```
-python bid_parser.py
-```
-
-### Script Arguments
-
-- limit (optional): Sets the maximum number of vehicles to scrape. If not set, the script will continue until there are no more pages left to scrape.
-- save_to_db (optional): If set, the script will save the data to a SQLite database. Otherwise, data will be saved to an Excel file by default.
-
-### Example Command
-```
-python bid_parser.py --limit 100 --save_to_db
-```
-
-This command will scrape data for 100 vehicles and save the information to a SQLite database.
-
-## Output
-
-- The Excel file will be named in the format bid_offers_YYYY-MM-DD.xlsx and saved in the project directory.
-- The SQLite database will be named bid_cars.db and also saved in the project directory.
+Navigate to the directory of the scraper you wish to use and follow the instructions in the respective README files for detailed usage guidelines.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue if you have suggestions or improvements.
+Contributions, suggestions, and improvements are welcome. Please refer to the contributing guidelines in each scraper's folder for more information.
 
-## Acknowledgements
+## Disclaimer
 
-Thanks to the Selenium project for providing the tools necessary for web scraping dynamic websites.
+These scripts are intended for educational and research purposes only. Users are responsible for complying with the terms of use of the websites they are scraping and for any consequences of their scraping activities.
 
 ## License
-This script is provided for educational purposes only. The author is not responsible for any misuse or damage resulting from the use of this script.
+
+The tools in this repository are provided under an open license for educational use. The authors are not liable for any misuse or damage.
