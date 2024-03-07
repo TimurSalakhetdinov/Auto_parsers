@@ -51,7 +51,7 @@ You can modify the `csv_limit` parameter in the `americanmotors_parser` function
 If you have multiple CSV files from the American Motors scraper and wish to combine them into a single file, follow these steps:
 
 1. Ensure all CSV files are in the same directory.
-2. Use the provided Python script to merge these files. The script reads all CSV files matching the pattern `americanmotors_YYYY-MM-DD_*.csv` and combines them into a single file named `americanmotors_YYYY-MM-DD.csv`.
+2. Use the provided Python script `combine_csv.py` to merge these files. The script reads all CSV files matching the pattern `americanmotors_YYYY-MM-DD_*.csv` and combines them into a single file named `americanmotors_YYYY-MM-DD.csv`.
 
 ## Note
 Ensure that you comply with the American Motors website's terms of use and scraping policies before using this script.
