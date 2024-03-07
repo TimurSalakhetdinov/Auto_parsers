@@ -28,6 +28,12 @@ python americanmotors_parser.py --limit 100
 
 If the `--limit` argument is omitted, the script will attempt to scrape data for all available cars on the website.
 
+### Usage
+
+Adjust the `csv_directory` variable in the script to point to the folder containing your CSV files and run the script. The combined file will be saved in the same directory.
+
+This is a convenient way to aggregate data from multiple scraping sessions into a unified dataset for analysis or storage.
+
 ## Features
 - **Headless Scraping**: Runs in headless mode to improve performance.
 - **Pagination Handling**: Automatically navigates through pages of car listings.
@@ -39,6 +45,13 @@ The script outputs CSV files with the scraped data. Each file is named in the fo
 
 ## Customization
 You can modify the `csv_limit` parameter in the `americanmotors_parser` function to change the number of records per CSV file.
+
+## Combining CSV Files
+
+If you have multiple CSV files from the American Motors scraper and wish to combine them into a single file, follow these steps:
+
+1. Ensure all CSV files are in the same directory.
+2. Use the provided Python script to merge these files. The script reads all CSV files matching the pattern `americanmotors_YYYY-MM-DD_*.csv` and combines them into a single file named `americanmotors_YYYY-MM-DD.csv`.
 
 ## Note
 Ensure that you comply with the American Motors website's terms of use and scraping policies before using this script.
