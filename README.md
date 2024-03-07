@@ -69,3 +69,6 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 ## Acknowledgements
 
 Thanks to the Selenium project for providing the tools necessary for web scraping dynamic websites.
+
+## License
+This script is provided for educational purposes only. The author is not responsible for any misuse or damage resulting from the use of this script.
