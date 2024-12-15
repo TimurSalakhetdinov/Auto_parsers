@@ -23,7 +23,7 @@ pip install selenium pandas
 Run the script from the command line, specifying the limit for the number of cars you want to scrape:
 
 ```
-python americanmotors_parser.py --limit 100
+python americanmotors.py --limit 100
 ```
 
 If the `--limit` argument is omitted, the script will attempt to scrape data for all available cars on the website.

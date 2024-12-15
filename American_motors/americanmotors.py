@@ -18,7 +18,7 @@ def save_to_csv(offers, batch_number):
     df.to_csv(filename, index=False)
 
 # Function to parse the americanmotors website
-def americanmotors_parser(limit=None, csv_limit=500):
+def americanmotors_parser(limit=None, csv_limit=1000):
     collected = 0
     batch_number = 1
     offers = []
@@ -32,7 +32,9 @@ def americanmotors_parser(limit=None, csv_limit=500):
 
     try:
         URL = "https://americamotors.com/auction/car"
+        print("Navigating to URL...")
         driver.get(URL)
+        print("Waiting for car elements...")
         WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.catalog__transport.transport.transport_buy .transport__row')))
         sleep(randint(2, 5))
 
@@ -63,11 +65,24 @@ def americanmotors_parser(limit=None, csv_limit=500):
 
             # Code to navigate to the next page
             try:
-                next_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'a[rel="next"]')))
-                ActionChains(driver).move_to_element(next_button).perform()
+                # Wait for the 'Next' button to be clickable
+                next_button = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, 'a.pagination__link.page-link[wire\\:click="nextPage"]'))
+                )
+                
+                # Scroll to the 'Next' button
+                driver.execute_script("arguments[0].scrollIntoView(true);", next_button)
+                sleep(1)  # Allow time for scrolling
+
+                # Click the 'Next' button
                 next_button.click()
-                WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.catalog__transport.transport.transport_buy .transport__row')))
-                sleep(randint(2, 5))
+
+                # Wait for the next page to load completely
+                WebDriverWait(driver, 20).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, '.catalog__transport.transport.transport_buy .transport__row'))
+                )
+                sleep(randint(2, 5))  # Random delay to mimic human behavior
+
             except (ElementClickInterceptedException, NoSuchElementException) as e:
                 print("Could not click 'Next' button or 'Next' button not found. Ending scraping process.")
                 break

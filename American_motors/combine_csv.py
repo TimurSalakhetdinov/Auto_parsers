@@ -3,14 +3,14 @@ import os
 import glob
 
 # Set the directory where your CSV files are stored
-csv_directory = '/Users/timursalakhetdinov/Documents/Python_projects'  # Replace with the path to your CSV files
-combined_csv_filename = 'americanmotors_2024-03-05.csv'  # The filename for the combined CSV
+csv_directory = '/Users/timursalakhetdinov/Documents/Python_projects/Car_parsers/Auto_parsers/American_motors'  # Replace with the path to your CSV files
+combined_csv_filename = 'americanmotors_2024-12-15.csv'  # The filename for the combined CSV
 
 # Change the working directory to the directory with CSVs
 os.chdir(csv_directory)
 
 # Use glob to match the pattern 'americanmotors_*.csv'
-csv_files = glob.glob('americanmotors_2024-03-05_*.csv')
+csv_files = glob.glob('americanmotors_2024-12-15_*.csv')
 
 # Initialize an empty list to store DataFrames
 df_list = []
